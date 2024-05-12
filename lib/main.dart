@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/login_page.dart';
+import 'package:nylo_framework/nylo_framework.dart';
 
 void main() {
+  Nylo.init();
   runApp(const MyApp());
 }
 
