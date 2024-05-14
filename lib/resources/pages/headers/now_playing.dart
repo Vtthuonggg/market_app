@@ -35,6 +35,24 @@ class _NowPlayingState extends State<NowPlaying> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return SingleChildScrollView(
+      child: movies.isNotEmpty
+          ? GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 3 / 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemBuilder: ((context, index) {
+                return Image.network(
+                    'https://image.tmdb.org/t/p/w780${movies[index]['poster_path']}');
+              }))
+          : Center(
+              child: CircularProgressIndicator(
+              color: Colors.blue,
+            )),
+    );
   }
 }
