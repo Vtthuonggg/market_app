@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/resources/pages/headers/chieu_som.dart';
-import 'package:flutter_app/resources/pages/headers/dan_chieu.dart';
+import 'package:flutter_app/resources/pages/headers/now_playing.dart';
 import 'package:flutter_app/resources/pages/headers/sap_chieu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +18,7 @@ class _HomePageUserState extends State<HomePageUser> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: 1,
       length: 3, // Số lượng tab
       child: Scaffold(
         appBar: AppBar(
@@ -107,7 +108,7 @@ class _HomePageUserState extends State<HomePageUser> {
         body: TabBarView(
           children: [
             BecomingFilms(), // Nội dung của tab 'Sắp Chiếu'
-            NowShowing(), // Nội dung của tab 'Đang Chiếu'
+            NowPlaying(), // Nội dung của tab 'Đang Chiếu'
             ComingSoon(), // Nội dung của tab 'Sắp Tới'
           ],
         ),
