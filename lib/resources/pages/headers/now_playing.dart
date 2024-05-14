@@ -24,35 +24,54 @@ class _NowPlayingState extends State<NowPlaying> {
       var res = await movieNowPlayingApi.fetchNowPlayingMovies();
       if (res != null && res.containsKey('results')) {
         movies = res['results'];
-        print('Movies::: $movies');
       } else {
         print('No results found');
       }
     } catch (e) {
       print('Lỗi: $e');
     }
+    print('Movies::: $movies');
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: movies.isNotEmpty
-          ? GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-              ),
-              itemBuilder: ((context, index) {
-                return Image.network(
-                    'https://image.tmdb.org/t/p/w780${movies[index]['poster_path']}');
-              }))
-          : Center(
-              child: CircularProgressIndicator(
+    return FutureBuilder(
+      future: fetchMovies(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
               color: Colors.blue,
-            )),
+            ),
+          );
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2 / 3,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10),
+                itemCount: movies.length,
+                itemBuilder: ((context, index) {
+                  print(movies[0]['poster_path']);
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.network(
+                      'https://image.tmdb.org/t/p/w500${movies[index]['poster_path']}',
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }),
+              ),
+            );
+        }
+      },
     );
   }
 }
