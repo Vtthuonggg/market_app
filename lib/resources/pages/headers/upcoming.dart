@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/movie_now_playing_api.dart';
+import 'package:flutter_app/app/networking/movie_upcoming_api.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NowPlaying extends StatefulWidget {
-  const NowPlaying({super.key});
+class Upcoming extends StatefulWidget {
+  const Upcoming({super.key});
 
   @override
-  State<NowPlaying> createState() => _NowPlayingState();
+  State<Upcoming> createState() => _UpcomingState();
 }
 
-class _NowPlayingState extends State<NowPlaying> {
-  late MovieNowPlayingApi movieNowPlayingApi;
+class _UpcomingState extends State<Upcoming> {
+  late MovieUpcomingApi movieNowPlayingApi;
   List<dynamic> movies = [];
   @override
   void initState() {
     super.initState();
-    movieNowPlayingApi = MovieNowPlayingApi(ApiService());
+    movieNowPlayingApi = MovieUpcomingApi(ApiService());
     fetchMovies();
   }
 
   Future fetchMovies() async {
     try {
-      var res = await movieNowPlayingApi.fetchNowPlayingMovies();
+      var res = await movieNowPlayingApi.fetchUpcomingMovie();
       if (res != null && res.containsKey('results')) {
         movies = res['results'];
       } else {

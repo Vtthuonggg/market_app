@@ -1,14 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_app/resources/pages/headers/chieu_som.dart';
 import 'package:flutter_app/resources/pages/headers/now_playing.dart';
-import 'package:flutter_app/resources/pages/headers/sap_chieu.dart';
+import 'package:flutter_app/resources/pages/headers/upcoming.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_app/resources/pages/headers/sap_chieu.dart';
 
 class HomePageUser extends StatefulWidget {
   String username;
@@ -52,7 +48,7 @@ class _HomePageUserState extends State<HomePageUser> {
     double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       initialIndex: 1,
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Column(
@@ -132,7 +128,6 @@ class _HomePageUserState extends State<HomePageUser> {
             tabs: [
               Tab(text: 'SẮP CHIẾU'),
               Tab(text: 'ĐANG CHIẾU'),
-              Tab(text: 'SUẤT CHIẾU SỚM'),
             ],
             labelStyle:
                 GoogleFonts.oswald(fontSize: 15, fontWeight: FontWeight.bold),
@@ -140,36 +135,32 @@ class _HomePageUserState extends State<HomePageUser> {
         ),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 150,
-                      child: PageView.builder(
-                        itemCount: null,
-                        controller: _pageController,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Image.asset(images[index % images.length]);
-                        },
-                      ),
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 150,
+                    child: PageView.builder(
+                      itemCount: null,
+                      controller: _pageController,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image.asset(images[index % images.length]);
+                      },
                     ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 600, // Adjust this value as needed
-                      child: TabBarView(
-                        children: [
-                          BecomingFilms(), // Nội dung của tab 'Sắp Chiếu'
-                          NowPlaying(), // Nội dung của tab 'Đang Chiếu'
-                          ComingSoon(), // Nội dung của tab 'Sắp Tới'
-                        ],
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        Upcoming(), // Nội dung của tab 'Sắp Chiếu'
+                        NowPlaying(), // Nội dung của tab 'Đang Chiếu'
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },

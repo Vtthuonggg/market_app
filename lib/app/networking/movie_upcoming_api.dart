@@ -1,18 +1,15 @@
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'dart:convert';
-
-class MovieNowPlayingApi {
+class MovieUpcomingApi {
   final ApiService _apiService;
 
-  MovieNowPlayingApi(this._apiService);
+  MovieUpcomingApi(this._apiService);
 
-  Future<Map<String, dynamic>> fetchNowPlayingMovies() async {
+  Future<Map<String, dynamic>> fetchUpcomingMovie() async {
     try {
       final response = await _apiService.network(
-        request: (request) =>
-            request.get("/movie/now_playing", queryParameters: {
+        request: (request) => request.get("/movie/upcoming", queryParameters: {
           'api_key': dotenv.env['API_KEY'],
           'language': 'vi',
         }),

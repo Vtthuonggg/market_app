@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -200,22 +199,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 child: TextButton(
                     onPressed: () async {
-                      try {
-                        UserCredential userCredential = await FirebaseAuth
-                            .instance
-                            .createUserWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'weak-password') {
-                          print('Mật khẩu quá yếu.');
-                        } else if (e.code == 'email-already-in-use') {
-                          print('Email đã được sử dụng.');
-                        }
-                      } catch (e) {
-                        print(e);
-                      }
+                      // try {
+                      //   UserCredential userCredential = await FirebaseAuth
+                      //       .instance
+                      //       .createUserWithEmailAndPassword(
+                      //     email: _emailController.text,
+                      //     password: _passwordController.text,
+                      //   );
+                      // } on FirebaseAuthException catch (e) {
+                      //   if (e.code == 'weak-password') {
+                      //     print('Mật khẩu quá yếu.');
+                      //   } else if (e.code == 'email-already-in-use') {
+                      //     print('Email đã được sử dụng.');
+                      //   }
+                      // } catch (e) {
+                      //   print(e);
+                      // }
                     },
                     child: Text('ĐĂNG KÝ',
                         style: GoogleFonts.oswald(
