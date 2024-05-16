@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/movie_now_playing_api.dart';
+import 'package:flutter_app/resources/pages/detail_film.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NowPlaying extends StatefulWidget {
@@ -61,7 +62,17 @@ class _NowPlayingState extends State<NowPlaying> {
                 itemCount: movies.length,
                 itemBuilder: ((context, index) {
                   print(movies[0]['poster_path']);
-                  return Container(
+                  return GestureDetector(
+                    onTap: () {
+                      print(movies[index]['id']);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailFilm(
+                                  movieId: movies[index]['id'],
+                                )),
+                      );
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

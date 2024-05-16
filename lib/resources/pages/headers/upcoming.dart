@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/movie_now_playing_api.dart';
 import 'package:flutter_app/app/networking/movie_upcoming_api.dart';
+import 'package:flutter_app/resources/pages/detail_film.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Upcoming extends StatefulWidget {
@@ -61,8 +62,16 @@ class _UpcomingState extends State<Upcoming> {
                     crossAxisSpacing: 10),
                 itemCount: movies.length,
                 itemBuilder: ((context, index) {
-                  print(movies[0]['poster_path']);
-                  return Container(
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailFilm(
+                                  movieId: movies[index]['id'],
+                                )),
+                      );
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

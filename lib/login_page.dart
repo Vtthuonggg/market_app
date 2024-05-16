@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 15),
-                      border: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey[400]!)),
                       focusedBorder: OutlineInputBorder(
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 15),
-                      border: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey[400]!)),
                       focusedBorder: OutlineInputBorder(
