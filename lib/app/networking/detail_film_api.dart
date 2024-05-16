@@ -25,4 +25,26 @@ class MovieDetailApi {
       return {};
     }
   }
+
+  Future<Map<String, dynamic>> getTrailer(int movieId) async {
+    try {
+      final response = await _apiService.network(
+        request: (request) =>
+            request.get("/movie/$movieId/videos", queryParameters: {
+          'api_key': dotenv.env['API_KEY'],
+          'language': 'vi',
+        }),
+      );
+      if (response != null) {
+        print(response);
+        return response;
+      } else {
+        print('Failed to load movie details');
+        return {};
+      }
+    } catch (e) {
+      print('Failed to fetch movie details: $e');
+      return {};
+    }
+  }
 }
