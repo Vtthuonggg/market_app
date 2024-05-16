@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "565207060593",
+    "firebase_url": "https://bate-cinemas-default-rtdb.firebaseio.com",
+    "project_id": "bate-cinemas",
+    "storage_bucket": "bate-cinemas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565207060593:android:10719965be6a25074e8bd0",
+        "android_client_info": {
+          "package_name": "com.batecinema.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpdAF4oz7WSqTKvS8HqJK5qy_rJsYdHDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

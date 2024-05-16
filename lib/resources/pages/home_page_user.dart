@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/resources/pages/headers/chieu_som.dart';
 import 'package:flutter_app/resources/pages/headers/now_playing.dart';
 import 'package:flutter_app/resources/pages/headers/sap_chieu.dart';
@@ -15,11 +19,40 @@ class HomePageUser extends StatefulWidget {
 }
 
 class _HomePageUserState extends State<HomePageUser> {
+  List<String> images = [
+    'public/assets/images/page_view/page1.png',
+    'public/assets/images/page_view/page2.png',
+    'public/assets/images/page_view/page3.jpg',
+  ];
+  late PageController _pageController;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      int nextPage = (_pageController.page!.toInt() + 1);
+      _pageController.animateToPage(nextPage,
+          duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
+    });
+  }
+
+  @override
+  void dispose() {
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       initialIndex: 1,
-      length: 3, // Số lượng tab
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Column(
@@ -105,12 +138,41 @@ class _HomePageUserState extends State<HomePageUser> {
                 GoogleFonts.oswald(fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ),
-        body: TabBarView(
-          children: [
-            BecomingFilms(), // Nội dung của tab 'Sắp Chiếu'
-            NowPlaying(), // Nội dung của tab 'Đang Chiếu'
-            ComingSoon(), // Nội dung của tab 'Sắp Tới'
-          ],
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 150,
+                      child: PageView.builder(
+                        itemCount: null,
+                        controller: _pageController,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Image.asset(images[index % images.length]);
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 600, // Adjust this value as needed
+                      child: TabBarView(
+                        children: [
+                          BecomingFilms(), // Nội dung của tab 'Sắp Chiếu'
+                          NowPlaying(), // Nội dung của tab 'Đang Chiếu'
+                          ComingSoon(), // Nội dung của tab 'Sắp Tới'
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

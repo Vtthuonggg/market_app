@@ -57,6 +57,8 @@ flutter:
   assets:
     - public/assets/fonts/
     - public/assets/images/
+    - public/assets/images/page_view/
+
     - public/assets/app_icon/
     - lang/
     - .env
