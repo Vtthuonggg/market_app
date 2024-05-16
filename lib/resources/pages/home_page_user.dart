@@ -142,7 +142,8 @@ class _HomePageUserState extends State<HomePageUser> {
               child: Column(
                 children: [
                   Container(
-                    height: 150,
+                    width: width,
+                    height: width * 800 / 292,
                     child: PageView.builder(
                       itemCount: null,
                       controller: _pageController,
