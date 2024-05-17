@@ -107,7 +107,10 @@ class _DetailFilmState extends State<DetailFilm> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: _loading
-              ? Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ))
               : Column(
                   children: [
                     Container(
