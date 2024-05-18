@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/detail_film_api.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailFilm extends StatefulWidget {
@@ -73,6 +74,29 @@ class _DetailFilmState extends State<DetailFilm> {
     }
   }
 
+  String limitWords(String text, int limit) {
+    List<String> words = text.split(' '); // Chia văn bản thành từ
+    if (words.length <= limit) {
+      return text; // Nếu số từ nhỏ hơn hoặc bằng giới hạn, trả về văn bản gốc
+    } else {
+      return words.take(limit).join(' ') +
+          '...'; // Nếu không, lấy 'limit' từ đầu và nối chúng lại
+    }
+  }
+
+  String formatDate(String date) {
+    try {
+      final inputFormat = DateFormat('yyyy-MM-dd', 'vi_VN');
+      final inputDate = inputFormat.parseStrict(date);
+
+      final outputFormat = DateFormat('dd/MM/yyyy', 'vi_VN');
+      return outputFormat.format(inputDate);
+    } catch (e) {
+      print('Unable to parse date: $date');
+      return date;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -138,15 +162,16 @@ class _DetailFilmState extends State<DetailFilm> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              detail['overview'] == null || ['overview'].isEmpty
+                              detail['overview'] == null ||
+                                      detail['overview'].isEmpty
                                   ? 'Tạm thời chưa có mô tả'
-                                  : detail['overview'] ?? '',
-                              maxLines: _showFullText ? 100 : 4,
-                              overflow: TextOverflow.ellipsis,
+                                  : _showFullText
+                                      ? detail['overview']
+                                      : limitWords(detail['overview'], 50),
                               style: TextStyle(fontSize: 14),
                             ),
                           ),
-                          if ((detail['overview'] ?? '').length > 100)
+                          if ((detail['overview'] ?? '').split(' ').length > 50)
                             TextButton(
                               child: Text(
                                 _showFullText ? "Thu gọn" : "Xem thêm",
@@ -164,33 +189,34 @@ class _DetailFilmState extends State<DetailFilm> {
                               },
                             ),
                           SizedBox(height: 10),
-                          Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text: "Thời lượng: ",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: detail['runtime'] == 0
-                                  ? "Chưa rõ"
-                                  : " ${detail['runtime']} phút",
-                              style: TextStyle(fontSize: 16),
-                            )
-                          ])),
-                          SizedBox(height: 10),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Ngày ra mắt: ',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                          Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  'public/assets/images/clock.png',
+                                  color: Colors.black,
                                 ),
-                                TextSpan(
-                                  text: detail['release_date'] ?? '',
+                              ),
+                              Text(
+                                detail['runtime'] == 0
+                                    ? "Chưa rõ"
+                                    : " ${detail['runtime']} phút",
+                              ),
+                              SizedBox(width: 20),
+                              Container(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  'public/assets/images/date.png',
                                 ),
-                              ],
-                            ),
-                            style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(width: 5),
+                              Text(formatDate(
+                                detail['release_date'] ?? '',
+                              )),
+                            ],
                           ),
                           SizedBox(height: 10),
                           Row(
@@ -201,21 +227,28 @@ class _DetailFilmState extends State<DetailFilm> {
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(width: 10),
-                              Stack(alignment: Alignment.center, children: [
-                                CircularProgressIndicator(
-                                  strokeWidth: 6,
-                                  value: voteRatio,
-                                  backgroundColor: Colors.grey[200],
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      progressColor),
-                                ),
-                                Text(
-                                  voteAverage?.toStringAsFixed(1) ?? '',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ]),
+                              SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      CircularProgressIndicator(
+                                        strokeWidth: 5,
+                                        value: voteRatio,
+                                        backgroundColor: Colors.grey[200],
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                progressColor),
+                                      ),
+                                      Text(
+                                        voteAverage?.toStringAsFixed(1) ?? '',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ]),
+                              ),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -224,7 +257,7 @@ class _DetailFilmState extends State<DetailFilm> {
                                   fontWeight: FontWeight.bold, fontSize: 16)),
                           SizedBox(height: 10),
                           video['key'] == null
-                              ? Text("Không có trailer")
+                              ? Text("Tạm thời chưa cập nhật")
                               : YoutubePlayer(
                                   controller: _controller,
                                   showVideoProgressIndicator: true,

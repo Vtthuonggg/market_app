@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/login_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:nylo_framework/nylo_framework.dart';
 
 void main() {
   Nylo.init();
-  runApp(const MyApp());
+  initializeDateFormatting('vi_VN').then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
