@@ -6,6 +6,7 @@ import 'package:nylo_framework/nylo_framework.dart';
 
 void main() {
   Nylo.init();
+
   initializeDateFormatting('vi_VN').then((_) => runApp(MyApp()));
 }
 

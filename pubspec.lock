@@ -153,14 +153,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
-  error_stack:
-    dependency: transitive
-    description:
-      name: error_stack
-      sha256: a8fc8c21a0e471333d3787ef669f8e072ce7f29122b1b1448dded9dfdd51046f
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.1"
   fake_async:
     dependency: transitive
     description:
@@ -271,50 +263,50 @@ packages:
     dependency: transitive
     description:
       name: flutter_secure_storage
-      sha256: ffdbb60130e4665d2af814a0267c481bcf522c41ae2e43caf69fa0146876d685
+      sha256: "8496a89eea74e23f92581885f876455d9d460e71201405dffe5f55dfe1155864"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.0"
+    version: "9.2.1"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
       name: flutter_secure_storage_linux
-      sha256: "3d5032e314774ee0e1a7d0a9f5e2793486f0dff2dd9ef5a23f4e3fb2a0ae6a9e"
+      sha256: "4d91bfc23047422cbcd73ac684bc169859ee766482517c22172c86596bf1464b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   flutter_secure_storage_macos:
     dependency: transitive
     description:
       name: flutter_secure_storage_macos
-      sha256: bd33935b4b628abd0b86c8ca20655c5b36275c3a3f5194769a7b3f37c905369c
+      sha256: b768a7dab26d6186b68e2831b3104f8968154f0f4fdbf66e7c2dd7bdf299daaf
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.1"
   flutter_secure_storage_platform_interface:
     dependency: transitive
     description:
       name: flutter_secure_storage_platform_interface
-      sha256: "0d4d3a5dd4db28c96ae414d7ba3b8422fd735a8255642774803b2532c9a61d7e"
+      sha256: cf91ad32ce5adef6fba4d736a542baca9daf3beac4db2d04be350b87f69ac4a8
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.1.2"
   flutter_secure_storage_web:
     dependency: transitive
     description:
       name: flutter_secure_storage_web
-      sha256: "30f84f102df9dcdaa2241866a958c2ec976902ebdaa8883fbfe525f1f2f3cf20"
+      sha256: f4ebff989b4f07b2656fb16b47852c0aab9fed9b4ec1c70103368337bc1886a9
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.2.1"
   flutter_secure_storage_windows:
     dependency: transitive
     description:
       name: flutter_secure_storage_windows
-      sha256: "5809c66f9dd3b4b93b0a6e2e8561539405322ee767ac2f64d084e2ab5429d108"
+      sha256: b20b07cb5ed4ed74fc567b78a72936203f587eba460af1df11281c9326cd3709
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.2"
   flutter_staggered_grid_view:
     dependency: transitive
     description:
@@ -473,18 +465,18 @@ packages:
     dependency: "direct main"
     description:
       name: nylo_framework
-      sha256: "1ef64622241300f7a0b8decf3c68593e0d86b04e451cc1015beb334155fa1e50"
+      sha256: "6a46d9d48c59aa3e4e50e78dc9b738d4cf98b2cda4abc98cf5fc42a612e730f0"
       url: "https://pub.dev"
     source: hosted
-    version: "5.27.1"
+    version: "5.24.2"
   nylo_support:
     dependency: transitive
     description:
       name: nylo_support
-      sha256: "62fdd215433e17b0fb35b2214ec3aef727697bed95e488167cab36be1072979a"
+      sha256: c3f371843fa15ff7c2cc44c5c3464bbad62506231d40290ae72690a57bada1ed
       url: "https://pub.dev"
     source: hosted
-    version: "5.68.1"
+    version: "5.67.1"
   package_config:
     dependency: transitive
     description:
@@ -899,5 +891,5 @@ packages:
     source: hosted
     version: "9.0.1"
 sdks:
-  dart: ">=3.3.3 <4.0.0"
+  dart: ">=3.2.3 <4.0.0"
   flutter: ">=3.16.6"
