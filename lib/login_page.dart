@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/login_api.dart';
+import 'package:flutter_app/resources/custom_toast.dart';
 import 'package:flutter_app/resources/pages/home_page_user.dart';
-import 'package:flutter_app/resources/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nylo_framework/nylo_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,7 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  bool _passwordVisible = false;
+  bool loading = false;
   @override
   void dispose() {
     _username.dispose();
@@ -90,11 +89,17 @@ class _LoginPageState extends State<LoginPage> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blue)),
-                      hintText: 'Email hoặc tên đăng nhập',
+                      hintText: 'Tên đăng nhập',
                       hintStyle: TextStyle(color: Colors.grey[400]),
-                      prefixIcon:
-                          Icon(Icons.email_outlined, color: Colors.grey[400]!),
-                      prefix: VerticalDivider(color: Colors.green),
+                      prefixIcon: Icon(Icons.person_2_outlined,
+                          color: Colors.grey[400]!),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.clear,
+                            size: 20, color: Colors.grey[400]),
+                        onPressed: () {
+                          _username.clear();
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -104,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                       FocusScope.of(context).unfocus();
                     },
                     cursorColor: Colors.blue,
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Không được để trống';
@@ -124,6 +129,20 @@ class _LoginPageState extends State<LoginPage> {
                       prefixIcon: Icon(Icons.lock_open_outlined,
                           color: Colors.grey[400]!),
                       prefix: VerticalDivider(color: Colors.green),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey[400]!,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -155,6 +174,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: TextButton(
                         onPressed: () async {
+                          setState(() {
+                            loading = true;
+                          });
                           final apiService = ApiService();
                           final loginApi = TMDBLoginApi(apiService);
                           final username = _username.text;
@@ -168,11 +190,22 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (context) =>
                                       HomePageUser(username: username)),
                             );
-                          } else {}
+                          } else {
+                            CustomToast.showToastWarning(
+                                description:
+                                    "Tài khoản hoặc mật khẩu không đúng");
+                          }
+                          setState(() {
+                            loading = false;
+                          });
                         },
-                        child: Text('ĐĂNG NHẬP',
-                            style: GoogleFonts.oswald(
-                                fontSize: 20, color: Colors.white)),
+                        child: loading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text('ĐĂNG NHẬP',
+                                style: GoogleFonts.oswald(
+                                    fontSize: 20, color: Colors.white)),
                       )),
                   SizedBox(height: 20),
                   Row(

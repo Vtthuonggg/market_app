@@ -43,7 +43,7 @@ class _DetailFilmState extends State<DetailFilm> {
     try {
       var res = await movieDetailApi.fetchMovieDetail(widget.movieId);
       detail = res;
-      // print("DETAIL:${widget.movieId}:: $detail");
+      print("DETAIL:${widget.movieId}:: $detail");
     } catch (e) {
       print('Lỗi detail: $e');
       detail = {};
@@ -75,12 +75,11 @@ class _DetailFilmState extends State<DetailFilm> {
   }
 
   String limitWords(String text, int limit) {
-    List<String> words = text.split(' '); // Chia văn bản thành từ
+    List<String> words = text.split(' ');
     if (words.length <= limit) {
-      return text; // Nếu số từ nhỏ hơn hoặc bằng giới hạn, trả về văn bản gốc
+      return text;
     } else {
-      return words.take(limit).join(' ') +
-          '...'; // Nếu không, lấy 'limit' từ đầu và nối chúng lại
+      return words.take(limit).join(' ') + '...';
     }
   }
 
@@ -198,6 +197,18 @@ class _DetailFilmState extends State<DetailFilm> {
                                 width: 20,
                                 height: 20,
                                 child: Image.asset(
+                                  'public/assets/images/date.png',
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(formatDate(
+                                detail['release_date'] ?? '',
+                              )),
+                              SizedBox(width: 20),
+                              Container(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
                                   'public/assets/images/clock.png',
                                   color: Colors.black,
                                 ),
@@ -207,18 +218,6 @@ class _DetailFilmState extends State<DetailFilm> {
                                     ? "Chưa rõ"
                                     : " ${detail['runtime']} phút",
                               ),
-                              SizedBox(width: 20),
-                              Container(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset(
-                                  'public/assets/images/date.png',
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              Text(formatDate(
-                                detail['release_date'] ?? '',
-                              )),
                             ],
                           ),
                           SizedBox(height: 10),
