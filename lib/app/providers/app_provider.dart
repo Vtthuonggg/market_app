@@ -22,7 +22,6 @@ class AppProvider implements NyProvider {
     nylo.addModelDecoders(modelDecoders);
     nylo.addControllers(controllers);
     nylo.addApiDecoders(apiDecoders);
-    nylo.useErrorStack();
 
     // Optional
     // nylo.showDateTimeInLogs(); // Show date time in logs
@@ -32,7 +31,5 @@ class AppProvider implements NyProvider {
   }
 
   @override
-  afterBoot(Nylo nylo) async {
-
-  }
+  afterBoot(Nylo nylo) async {}
 }
