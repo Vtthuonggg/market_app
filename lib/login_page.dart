@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/app/networking/api_service.dart';
+import 'package:flutter_app/app/networking/login_api.dart';
 import 'package:flutter_app/resources/pages/home_page_user.dart';
 import 'package:flutter_app/resources/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nylo_framework/nylo_framework.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,14 +16,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _controller = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
+  TextEditingController _username = TextEditingController();
+  TextEditingController _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _controller.dispose();
-    _controller2.dispose();
+    _username.dispose();
+    _password.dispose();
     super.dispose();
   }
 
@@ -68,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 150,
                       child: Image.asset('public/assets/images/logo_bate.png')),
                   TextFormField(
-                    controller: _controller,
+                    controller: _username,
                     onTapOutside: (event) {
                       FocusScope.of(context).unfocus();
                     },
@@ -96,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
-                    controller: _controller2,
+                    controller: _password,
                     onTapOutside: (event) {
                       FocusScope.of(context).unfocus();
                     },
@@ -151,53 +154,27 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       child: TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                        onPressed: () async {
+                          final apiService = ApiService();
+                          final loginApi = TMDBLoginApi(apiService);
+                          final username = _username.text;
+                          final password = _password.text;
+                          final success =
+                              await loginApi.login(username, password);
+                          if (success) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePageUser(
-                                        username: _controller.text,
-                                      )),
+                                  builder: (context) =>
+                                      HomePageUser(username: username)),
                             );
-                          }
+                          } else {}
                         },
                         child: Text('ĐĂNG NHẬP',
                             style: GoogleFonts.oswald(
                                 fontSize: 20, color: Colors.white)),
                       )),
                   SizedBox(height: 20),
-                  Container(
-                      width: width,
-                      height: height / 15,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black),
-                      child: Center(
-                        child: Text('ĐĂNG NHẬP BẰNG GOOGLE',
-                            style: GoogleFonts.oswald(
-                                fontSize: 20, color: Colors.white)),
-                      )),
-                  SizedBox(height: 20),
-                  Container(
-                      width: width,
-                      height: height / 15,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 0, 94, 255),
-                            Color.fromARGB(255, 131, 193, 251)
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text('ĐĂNG NHẬP BẰNG FACEBOOK',
-                            style: GoogleFonts.oswald(
-                                fontSize: 20, color: Colors.white)),
-                      )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -225,9 +202,19 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  Text('Đăng ký tài khoản Bate Cinema',
-                      style: GoogleFonts.oswald(
-                          fontSize: 20, color: Colors.grey[700])),
+                  TextButton(
+                    onPressed: () async {
+                      const url = 'https://www.themoviedb.org/account/signup';
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Text('Đăng ký tài khoản',
+                        style: GoogleFonts.oswald(
+                            fontSize: 20, color: Colors.grey[700])),
+                  ),
                 ],
               ),
             ),
