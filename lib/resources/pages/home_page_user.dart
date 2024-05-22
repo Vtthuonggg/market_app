@@ -156,8 +156,8 @@ class _HomePageUserState extends State<HomePageUser> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        Upcoming(), // Nội dung của tab 'Sắp Chiếu'
-                        NowPlaying(), // Nội dung của tab 'Đang Chiếu'
+                        Upcoming(),
+                        NowPlaying(),
                       ],
                     ),
                   ),

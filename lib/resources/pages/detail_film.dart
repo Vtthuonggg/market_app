@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/detail_film_api.dart';
+import 'package:flutter_app/resources/pages/book_ticker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -299,7 +300,15 @@ class _DetailFilmState extends State<DetailFilm> {
             ),
           ),
           child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BookTicket(
+                            film: detail,
+                          )),
+                );
+              },
               child: Text('ĐẶT VÉ',
                   style:
                       GoogleFonts.oswald(fontSize: 20, color: Colors.white))),
