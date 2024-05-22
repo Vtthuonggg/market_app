@@ -44,15 +44,15 @@ class _BookTicketState extends State<BookTicket> {
             Container(
               alignment: Alignment.bottomCenter,
               width: width,
-              height: height / 2.5,
+              height: height / 2.2,
               child: Expanded(
                 child: GridView.builder(
-                  itemCount: 132,
+                  itemCount: 121,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 12, childAspectRatio: 1),
+                      crossAxisCount: 11, childAspectRatio: 1),
                   itemBuilder: (context, index) {
-                    int row = index ~/ 12;
-                    int seat = index % 12;
+                    int row = index ~/ 11;
+                    int seat = index % 11;
                     return GestureDetector(
                       onTap: () {
                         setState(() {
@@ -64,7 +64,7 @@ class _BookTicketState extends State<BookTicket> {
                         children: <Widget>[
                           Image.asset(
                             'public/assets/images/seat.png',
-                            scale: 2,
+                            scale: 1.5,
                             color: selectedSeats[index]
                                 ? Colors.red[400]
                                 : row < 4
@@ -76,7 +76,7 @@ class _BookTicketState extends State<BookTicket> {
                             child: Text(
                               '${String.fromCharCode(row + 65)}${seat + 1}',
                               style: GoogleFonts.oswald(
-                                  color: Colors.white, fontSize: 7),
+                                  color: Colors.white, fontSize: 10),
                             ),
                           ),
                         ],
