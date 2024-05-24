@@ -5,6 +5,7 @@ import 'package:flutter_app/resources/custom_toast.dart';
 import 'package:flutter_app/resources/pages/home_page_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_app/resources/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -184,11 +185,13 @@ class _LoginPageState extends State<LoginPage> {
                           final success =
                               await loginApi.login(username, password);
                           if (success) {
+                            globals.username = _username.text;
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomePageUser(username: username)),
+                                  builder: (context) => HomePageUser(),
+                                  settings: RouteSettings(name: 'LoginPage')),
                             );
                           } else {
                             CustomToast.showToastWarning(

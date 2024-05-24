@@ -23,7 +23,7 @@ class _DetailFilmState extends State<DetailFilm> {
   final _apiService = ApiService();
   bool _loading = false;
   bool _showFullText = false;
-
+  List<Map<String, dynamic>> gener = [];
   @override
   void initState() {
     super.initState();
@@ -44,6 +44,9 @@ class _DetailFilmState extends State<DetailFilm> {
     try {
       var res = await movieDetailApi.fetchMovieDetail(widget.movieId);
       detail = res;
+      if (detail['genres'] != null) {
+        gener = List<Map<String, dynamic>>.from(detail['genres']);
+      }
       print("DETAIL:${widget.movieId}:: $detail");
     } catch (e) {
       print('Lỗi detail: $e');
@@ -218,6 +221,34 @@ class _DetailFilmState extends State<DetailFilm> {
                                 detail['runtime'] == 0
                                     ? "Chưa rõ"
                                     : " ${detail['runtime']} phút",
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Thể loại: ",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                spacing: 8.0, // gap between adjacent chips
+                                runSpacing: 4.0, // gap between lines
+                                children: gener.asMap().entries.map((entry) {
+                                  int idx = entry.key;
+                                  Map<String, dynamic> item = entry.value;
+                                  String suffix =
+                                      idx == gener.length - 1 ? '' : ', ';
+                                  return Text(
+                                    item['name'].replaceFirst('Phim ', '') +
+                                        suffix,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                             ],
                           ),

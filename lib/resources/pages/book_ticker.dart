@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/resources/custom_toast.dart';
+import 'package:flutter_app/resources/pages/home_page.dart';
+import 'package:flutter_app/resources/pages/home_page_user.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class BookTicket extends StatefulWidget {
   Map<String, dynamic> film;
@@ -12,7 +18,27 @@ class BookTicket extends StatefulWidget {
 }
 
 class _BookTicketState extends State<BookTicket> {
+  NumberFormat vndFormat = NumberFormat.currency(locale: 'vi_VN', symbol: '');
   List<bool> selectedSeats = List<bool>.generate(150, (index) => false);
+  getPrice() {
+    num price = 0;
+    DateTime now = DateTime.now();
+    print('THỜI GIAN HIỆN TẠI: $now');
+    String formattedDate = DateFormat("EEEE").format(now);
+    print(formattedDate);
+    bool isWeekend = (formattedDate == 'Friday' ||
+        formattedDate == 'Satuday' ||
+        formattedDate == 'Sunday');
+    for (int i = 0; i < selectedSeats.length; i++) {
+      if (selectedSeats[i]) {
+        int row = i ~/ 11;
+        price +=
+            isWeekend ? (row < 4 ? 45000 : 60000) : (row < 4 ? 60000 : 75000);
+      }
+    }
+    return price;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -32,6 +58,75 @@ class _BookTicketState extends State<BookTicket> {
                   widget.film['title'],
                   style: GoogleFonts.oswald(
                       fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Image.asset(
+                  'public/assets/images/seat.png',
+                  scale: 1.5,
+                  color: Colors.grey[400],
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  ": Ghế thường",
+                  style: GoogleFonts.oswald(fontSize: 20),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Image.asset(
+                  'public/assets/images/seat.png',
+                  scale: 1.5,
+                  color: Colors.blue[300],
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  ": Ghế VIP",
+                  style: GoogleFonts.oswald(fontSize: 20),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Image.asset(
+                  'public/assets/images/seat.png',
+                  scale: 1.5,
+                  color: Colors.red[400],
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  ": Ghế đang được chọn",
+                  style: GoogleFonts.oswald(fontSize: 20),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Tổng tiền: ${vndFormat.format(getPrice())}',
+                  style: GoogleFonts.oswald(fontSize: 20),
                 ),
               ],
             ),
@@ -85,7 +180,34 @@ class _BookTicketState extends State<BookTicket> {
                   },
                 ),
               ),
-            )
+            ),
+            Container(
+              width: width,
+              height: height / 16,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 229, 88, 0),
+                    Color.fromARGB(255, 242, 198, 76)
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              ),
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePageUser()),
+                        (Route<dynamic> route) => false);
+                    CustomToast.showToastSuccess(
+                        description: 'Đặt vé thành công');
+                  },
+                  child: Text('Thanh toán',
+                      style: GoogleFonts.oswald(
+                          fontSize: 20, color: Colors.white))),
+            ),
           ],
         ),
       ),

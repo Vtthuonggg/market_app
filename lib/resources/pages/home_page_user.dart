@@ -5,10 +5,12 @@ import 'package:flutter_app/resources/pages/headers/now_playing.dart';
 import 'package:flutter_app/resources/pages/headers/upcoming.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_app/resources/globals.dart' as globals;
 
 class HomePageUser extends StatefulWidget {
-  String username;
-  HomePageUser({Key? key, required this.username}) : super(key: key);
+  HomePageUser({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePageUser> createState() => _HomePageUserState();
@@ -60,7 +62,7 @@ class _HomePageUserState extends State<HomePageUser> {
                   style: TextStyle(fontSize: 15),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '${widget.username}',
+                      text: '${globals.username}',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
