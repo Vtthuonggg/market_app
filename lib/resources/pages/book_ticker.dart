@@ -11,7 +11,14 @@ import 'package:intl/intl.dart';
 
 class BookTicket extends StatefulWidget {
   Map<String, dynamic> film;
-  BookTicket({Key? key, required this.film}) : super(key: key);
+  String time;
+  DateTime bookingDay;
+  BookTicket(
+      {Key? key,
+      required this.film,
+      required this.time,
+      required this.bookingDay})
+      : super(key: key);
 
   @override
   State<BookTicket> createState() => _BookTicketState();

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/detail_film_api.dart';
+import 'package:flutter_app/resources/location/location.dart';
 import 'package:flutter_app/resources/pages/book_ticker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -240,12 +241,12 @@ class _DetailFilmState extends State<DetailFilm> {
                                   int idx = entry.key;
                                   Map<String, dynamic> item = entry.value;
                                   String suffix =
-                                      idx == gener.length - 1 ? '' : ', ';
+                                      idx == gener.length - 1 ? '' : ',';
                                   return Text(
                                     item['name'].replaceFirst('Phim ', '') +
                                         suffix,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   );
                                 }).toList(),
@@ -335,7 +336,7 @@ class _DetailFilmState extends State<DetailFilm> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => BookTicket(
+                      builder: (context) => Location(
                             film: detail,
                           )),
                 );
