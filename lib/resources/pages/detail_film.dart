@@ -53,9 +53,11 @@ class _DetailFilmState extends State<DetailFilm> {
       print('Lỗi detail: $e');
       detail = {};
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 
@@ -73,9 +75,11 @@ class _DetailFilmState extends State<DetailFilm> {
       print('Lỗi video: $e');
       video = {};
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 

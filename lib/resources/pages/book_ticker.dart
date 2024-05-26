@@ -147,45 +147,43 @@ class _BookTicketState extends State<BookTicket> {
               alignment: Alignment.bottomCenter,
               width: width,
               height: height / 2.2,
-              child: Expanded(
-                child: GridView.builder(
-                  itemCount: 121,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 11, childAspectRatio: 1),
-                  itemBuilder: (context, index) {
-                    int row = index ~/ 11;
-                    int seat = index % 11;
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedSeats[index] = !selectedSeats[index];
-                        });
-                      },
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: <Widget>[
-                          Image.asset(
-                            'public/assets/images/seat.png',
-                            scale: 1.5,
-                            color: selectedSeats[index]
-                                ? Colors.red[400]
-                                : row < 4
-                                    ? Colors.grey[400]
-                                    : Colors.blue[300],
+              child: GridView.builder(
+                itemCount: 121,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 11, childAspectRatio: 1),
+                itemBuilder: (context, index) {
+                  int row = index ~/ 11;
+                  int seat = index % 11;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedSeats[index] = !selectedSeats[index];
+                      });
+                    },
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: <Widget>[
+                        Image.asset(
+                          'public/assets/images/seat.png',
+                          scale: 1.5,
+                          color: selectedSeats[index]
+                              ? Colors.red[400]
+                              : row < 4
+                                  ? Colors.grey[400]
+                                  : Colors.blue[300],
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            '${String.fromCharCode(row + 65)}${seat + 1}',
+                            style: GoogleFonts.oswald(
+                                color: Colors.white, fontSize: 10),
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Text(
-                              '${String.fromCharCode(row + 65)}${seat + 1}',
-                              style: GoogleFonts.oswald(
-                                  color: Colors.white, fontSize: 10),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
             Container(
