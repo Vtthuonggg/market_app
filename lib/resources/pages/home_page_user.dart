@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/resources/pages/bottomnavi_page/actor_page.dart';
+import 'package:flutter_app/resources/pages/bottomnavi_page/favorite_page.dart';
+import 'package:flutter_app/resources/pages/bottomnavi_page/searching_page.dart';
 import 'package:flutter_app/resources/pages/headers/now_playing.dart';
 import 'package:flutter_app/resources/pages/headers/upcoming.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,7 +14,7 @@ class HomePageUser extends StatefulWidget {
   HomePageUser({
     Key? key,
   }) : super(key: key);
-
+  static const String path = '/home_page_user';
   @override
   State<HomePageUser> createState() => _HomePageUserState();
 }

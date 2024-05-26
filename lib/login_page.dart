@@ -3,7 +3,9 @@ import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/login_api.dart';
 import 'package:flutter_app/resources/custom_toast.dart';
 import 'package:flutter_app/resources/pages/home_page_user.dart';
+import 'package:flutter_app/resources/pages/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nylo_framework/nylo_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_app/resources/globals.dart' as globals;
 
@@ -187,12 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                           if (success) {
                             globals.username = _username.text;
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePageUser(),
-                              ),
-                            );
+                            routeTo(MainScreen.path);
                           } else {
                             CustomToast.showToastWarning(
                                 description:
