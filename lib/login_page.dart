@@ -190,8 +190,8 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePageUser(),
-                                  settings: RouteSettings(name: 'LoginPage')),
+                                builder: (context) => HomePageUser(),
+                              ),
                             );
                           } else {
                             CustomToast.showToastWarning(

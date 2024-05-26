@@ -33,9 +33,9 @@ class _BookTicketState extends State<BookTicket> {
     print('THỜI GIAN HIỆN TẠI: $now');
     String formattedDate = DateFormat("EEEE").format(now);
     print(formattedDate);
-    bool isWeekend = (formattedDate == 'Friday' ||
-        formattedDate == 'Satuday' ||
-        formattedDate == 'Sunday');
+    bool isWeekend = (formattedDate == 'Th 6' ||
+        formattedDate == 'Th 7' ||
+        formattedDate == 'CN');
     for (int i = 0; i < selectedSeats.length; i++) {
       if (selectedSeats[i]) {
         int row = i ~/ 11;
