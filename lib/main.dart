@@ -2,6 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/login_page.dart';
+import 'package:flutter_app/resources/pages/home_page.dart';
+import 'package:flutter_app/resources/pages/home_page_user.dart';
+import 'package:flutter_app/resources/pages/main_screen.dart';
+import 'package:flutter_app/routes/router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nylo_framework/nylo_framework.dart';
 
@@ -16,12 +20,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = appRouter();
+    final routes = {
+      HomePage.path: (context) => HomePage(),
+      HomePageUser.path: (context) => HomePageUser(),
+      MainScreen.path: (context) => MainScreen(),
+      LoginPage.path: (context) => LoginPage(),
+      // Add your routes here
+    };
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-      routes: {
-        '/login': (context) => LoginPage(),
-      },
+      routes: routes,
     );
   }
 }

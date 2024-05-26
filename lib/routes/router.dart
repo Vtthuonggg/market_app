@@ -1,3 +1,4 @@
+import 'package:flutter_app/login_page.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/searching_page.dart';
 import 'package:flutter_app/resources/pages/home_page_user.dart';
 import 'package:flutter_app/resources/pages/main_screen.dart';
@@ -17,6 +18,7 @@ appRouter() => nyRoutes((router) {
       router.route(HomePage.path, (context) => HomePage(), initialRoute: true);
       router.route(HomePageUser.path, (context) => HomePageUser());
       router.route(MainScreen.path, (context) => MainScreen());
+      router.route(LoginPage.path, (context) => LoginPage());
       // Add your routes here
 
       // router.route(NewPage.path, (context) => NewPage(), transition: PageTransitionType.fade);

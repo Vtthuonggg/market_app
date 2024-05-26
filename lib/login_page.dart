@@ -6,11 +6,13 @@ import 'package:flutter_app/resources/pages/home_page_user.dart';
 import 'package:flutter_app/resources/pages/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nylo_framework/nylo_framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_app/resources/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+  static const String path = '/login';
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -22,6 +24,18 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool _passwordVisible = false;
   bool loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((prefs) {
+      String? username = prefs.getString('username');
+      String? password = prefs.getString('password');
+      _username.text = username ?? '';
+      _password.text = password ?? '';
+    });
+  }
+
   @override
   void dispose() {
     _username.dispose();
@@ -180,16 +194,22 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() {
                             loading = true;
                           });
+
                           final apiService = ApiService();
                           final loginApi = TMDBLoginApi(apiService);
                           final username = _username.text;
                           final password = _password.text;
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.setString('username', username);
+                          await prefs.setString('password', password);
                           final success =
                               await loginApi.login(username, password);
                           if (success) {
                             globals.username = _username.text;
 
-                            routeTo(MainScreen.path);
+                            Navigator.pushReplacementNamed(
+                                context, '/main_screen');
                           } else {
                             CustomToast.showToastWarning(
                                 description:
