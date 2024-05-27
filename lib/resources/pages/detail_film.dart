@@ -256,7 +256,9 @@ class _DetailFilmState extends State<DetailFilm> {
                               IconButton(
                                   onPressed: toggleFavorite,
                                   icon: Icon(
-                                    FontAwesomeIcons.heart,
+                                    isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
                                     color:
                                         isFavorite ? Colors.red : Colors.grey,
                                   ))

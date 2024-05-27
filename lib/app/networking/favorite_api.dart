@@ -7,7 +7,8 @@ import 'package:nylo_framework/nylo_framework.dart';
 class FavoriteApi extends NyBaseApiService {
   final ApiService _apiService;
   FavoriteApi(this._apiService) : super(null);
-
+  String accessToken =
+      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZDE2MmJkMzgxNjgwZjUzZjg2NWI0ZWJlODBlNTAxZSIsInN1YiI6IjY2NDFlNzQyOTA5YWVkY2FiM2YxMzI3NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.x826zaFBAr4Oh8-YN5j9hmmcy_VH6wf4tv1ShlzCHEU';
   Future<int> getAccountId(String sessionId) async {
     final response = await _apiService.get(
       '/account',
@@ -51,8 +52,7 @@ class FavoriteApi extends NyBaseApiService {
         "favorite": isFavorite
       },
       options: Options(headers: {
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZDE2MmJkMzgxNjgwZjUzZjg2NWI0ZWJlODBlNTAxZSIsInN1YiI6IjY2NDFlNzQyOTA5YWVkY2FiM2YxMzI3NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.x826zaFBAr4Oh8-YN5j9hmmcy_VH6wf4tv1ShlzCHEU',
+        'Authorization': 'Bearer $accessToken',
         'accept': 'application/json',
       }),
     );
