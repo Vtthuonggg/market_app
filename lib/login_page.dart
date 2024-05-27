@@ -203,11 +203,11 @@ class _LoginPageState extends State<LoginPage> {
                               await SharedPreferences.getInstance();
                           await prefs.setString('username', username);
                           await prefs.setString('password', password);
-                          final success =
+                          String? sessionid =
                               await loginApi.login(username, password);
-                          if (success) {
+                          if (sessionid != null) {
+                            await prefs.setString('accessToken', sessionid);
                             globals.username = _username.text;
-
                             Navigator.pushReplacementNamed(
                                 context, '/main_screen');
                           } else {

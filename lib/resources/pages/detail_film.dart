@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/detail_film_api.dart';
+import 'package:flutter_app/app/networking/favorite_api.dart';
 import 'package:flutter_app/resources/location/location.dart';
 import 'package:flutter_app/resources/pages/book_ticker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailFilm extends StatefulWidget {
@@ -18,6 +21,7 @@ class DetailFilm extends StatefulWidget {
 }
 
 class _DetailFilmState extends State<DetailFilm> {
+  bool isFavorite = false;
   Map<String, dynamic> detail = {};
   Map<String, dynamic> video = {};
   late MovieDetailApi movieDetailApi;
@@ -31,11 +35,33 @@ class _DetailFilmState extends State<DetailFilm> {
     movieDetailApi = MovieDetailApi(_apiService, movieId: widget.movieId);
     fetchDetail();
     getVideo();
+    getAccessToken();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<String> getAccessToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('accessToken') ?? '';
+  }
+
+  Future<void> toggleFavorite() async {
+    try {
+      final accessToken = await getAccessToken();
+      await FavoriteApi(_apiService).addFavoriteMovie(
+          accessToken: accessToken,
+          movieId: widget.movieId,
+          isFavorite: isFavorite);
+
+      setState(() {
+        isFavorite = !isFavorite;
+      });
+    } catch (e) {
+      print('Lỗi toggling favorite: $e');
+    }
   }
 
   Future<void> fetchDetail() async {
@@ -227,6 +253,13 @@ class _DetailFilmState extends State<DetailFilm> {
                                     ? "Chưa rõ"
                                     : " ${detail['runtime']} phút",
                               ),
+                              IconButton(
+                                  onPressed: toggleFavorite,
+                                  icon: Icon(
+                                    FontAwesomeIcons.heart,
+                                    color:
+                                        isFavorite ? Colors.red : Colors.grey,
+                                  ))
                             ],
                           ),
                           SizedBox(height: 10),
