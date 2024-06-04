@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config/storage_keys.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '/config/decoders.dart';
 import 'package:nylo_framework/nylo_framework.dart';
@@ -10,17 +11,17 @@ import 'package:nylo_framework/nylo_framework.dart';
 |-------------------------------------------------------------------------- */
 
 class ApiService extends NyApiService {
-
-  ApiService({BuildContext? buildContext}) : super(
-      buildContext,
-      decoders: modelDecoders,
-      // baseOptions: (BaseOptions baseOptions) {
-      //   return baseOptions
-      //             ..connectTimeout = Duration(seconds: 5)
-      //             ..sendTimeout = Duration(seconds: 5)
-      //             ..receiveTimeout = Duration(seconds: 5);
-      // },
-  );
+  ApiService({BuildContext? buildContext})
+      : super(
+          buildContext,
+          decoders: modelDecoders,
+          // baseOptions: (BaseOptions baseOptions) {
+          //   return baseOptions
+          //             ..connectTimeout = Duration(seconds: 5)
+          //             ..sendTimeout = Duration(seconds: 5)
+          //             ..receiveTimeout = Duration(seconds: 5);
+          // },
+        );
 
   @override
   String get baseUrl => getEnv('API_BASE_URL');
@@ -28,19 +29,17 @@ class ApiService extends NyApiService {
   @override
   // ignore: overridden_fields
   final interceptors = {
-    if (getEnv('APP_DEBUG') == true)
-    PrettyDioLogger: PrettyDioLogger()
+    if (getEnv('APP_DEBUG') == true) PrettyDioLogger: PrettyDioLogger()
   };
 
   Future fetchTestData() async {
     return await network(
-        request: (request) => request.get("/endpoint-path"),
+      request: (request) => request.get("/endpoint-path"),
     );
   }
 
   /* Helpers
   |-------------------------------------------------------------------------- */
-
 
   /* Authentication Headers
   |--------------------------------------------------------------------------
@@ -48,15 +47,12 @@ class ApiService extends NyApiService {
   | Authenticate your API requests using a bearer token or any other method
   |-------------------------------------------------------------------------- */
 
-  // @override
-  // Future<RequestHeaders> setAuthHeaders(RequestHeaders headers) async {
-  //   String? myAuthToken = await StorageKey.userToken.read();
-  //   if (myAuthToken != null) {
-  //     headers.addBearerToken( myAuthToken );
-  //   }
-  //   return headers;
-  // }
-
+  @override
+  Future<RequestHeaders> setAuthHeaders(RequestHeaders headers) async {
+    final String apiKey = '1d162bd381680f53f865b4ebe80e501e';
+    headers.addBearerToken('Bearer $apiKey');
+    return headers;
+  }
 
   /* Should Refresh Token
   |--------------------------------------------------------------------------
@@ -68,7 +64,6 @@ class ApiService extends NyApiService {
   // Future<bool> shouldRefreshToken() async {
   //   return false;
   // }
-
 
   /* Refresh Token
   |--------------------------------------------------------------------------
@@ -83,7 +78,6 @@ class ApiService extends NyApiService {
   //  // Save the new token
   //   await StorageKey.userToken.store(response['token']);
   // }
-
 
   /* Display a error
   |--------------------------------------------------------------------------

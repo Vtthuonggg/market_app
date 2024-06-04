@@ -73,10 +73,12 @@ class FavoriteApi extends NyBaseApiService {
     final accountId = await getAccountId();
     final apiKey = dotenv.env['API_KEY'] ?? '';
 
-    final response = await _apiService.get(
-      'https://api.themoviedb.org/3/account/$accountId/favorite/movies?api_key=$apiKey&session_id=$sessionId&language=vi',
-    );
-
+    final response = await _apiService
+        .get('/account/$accountId/favorite/movies', queryParameters: {
+      'api_key': apiKey,
+      'session_id': sessionId ?? '',
+      'language': 'vi',
+    });
     return response['results'];
   }
 }

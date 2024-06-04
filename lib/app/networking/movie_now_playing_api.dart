@@ -11,7 +11,8 @@ class MovieNowPlayingApi {
   Future<Map<String, dynamic>> fetchNowPlayingMovies() async {
     try {
       final response = await _apiService.network(
-        request: (request) => request.get("/movie/popular", queryParameters: {
+        request: (request) =>
+            request.get("/movie/now_playing", queryParameters: {
           'api_key': dotenv.env['API_KEY'],
           'language': 'vi',
         }),
