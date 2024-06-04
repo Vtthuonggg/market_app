@@ -3,19 +3,24 @@ import 'dart:convert';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:nylo_framework/nylo_framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteApi extends NyBaseApiService {
   final ApiService _apiService;
   FavoriteApi(this._apiService) : super(null);
-  String accessToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZDE2MmJkMzgxNjgwZjUzZjg2NWI0ZWJlODBlNTAxZSIsInN1YiI6IjY2NDFlNzQyOTA5YWVkY2FiM2YxMzI3NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.x826zaFBAr4Oh8-YN5j9hmmcy_VH6wf4tv1ShlzCHEU';
-  Future<int> getAccountId(String sessionId) async {
+  Future<String?> getSessionId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('sessionId');
+  }
+
+  Future<int> getAccountId() async {
+    final sessionId = await getSessionId();
     final response = await _apiService.get(
       '/account',
       queryParameters: {
         'api_key': dotenv.env['API_KEY'] ?? '',
         'language': 'vi',
-        'session_id': sessionId,
+        'session_id': sessionId ?? '',
       },
     );
     try {
@@ -38,27 +43,40 @@ class FavoriteApi extends NyBaseApiService {
 
   Future<void> addFavoriteMovie({
     required int movieId,
-    required String accessToken,
     required bool isFavorite,
   }) async {
-    final accountId = await getAccountId(accessToken);
+    final sessionId = await getSessionId();
+    final accountId = await getAccountId();
     final apiKey = dotenv.env['API_KEY'] ?? '';
-
+    print("CHECK MOVIEID");
+    print(movieId);
+    print(isFavorite);
     final response = await _apiService.post(
-      'https://api.themoviedb.org/3/account/$accountId/favorite?api_key=$apiKey&language=vi',
+      'https://api.themoviedb.org/3/account/$accountId/favorite?api_key=$apiKey&session_id=$sessionId&language=vi',
       data: {
         "media_type": "movie",
         "media_id": movieId,
         "favorite": isFavorite
       },
       options: Options(headers: {
-        'Authorization': 'Bearer $accessToken',
         'accept': 'application/json',
       }),
     );
 
     if (response['success'] != true) {
-      throw Exception('Failed to add movie to favorites');
+      return response;
     }
+  }
+
+  Future<List<dynamic>> getFavoriteMovies() async {
+    final sessionId = await getSessionId();
+    final accountId = await getAccountId();
+    final apiKey = dotenv.env['API_KEY'] ?? '';
+
+    final response = await _apiService.get(
+      'https://api.themoviedb.org/3/account/$accountId/favorite/movies?api_key=$apiKey&session_id=$sessionId&language=vi',
+    );
+
+    return response['results'];
   }
 }

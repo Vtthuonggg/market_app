@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/login_page.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/actor_page.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/favorite_page.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/searching_page.dart';
@@ -119,11 +120,12 @@ class _HomePageUserState extends State<HomePageUser> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Container(
-                  width: 70,
-                  child: Image.asset(
-                    'public/assets/images/logo_action.png',
-                    scale: 0.2,
-                  )),
+                width: 70,
+                child: Image.asset(
+                  'public/assets/images/logo_action.png',
+                  scale: 0.2,
+                ),
+              ),
             )
           ],
           bottom: TabBar(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/actor_page.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/favorite_page.dart';
 import 'package:flutter_app/resources/pages/bottomnavi_page/searching_page.dart';
+import 'package:flutter_app/resources/pages/bottomnavi_page/setting.dart';
 import 'package:flutter_app/resources/pages/home_page_user.dart';
 
 class MainScreen extends StatefulWidget {
@@ -17,8 +18,8 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _children = [
     HomePageUser(),
     SearchingPage(),
-    ActorPage(),
     FavoritePage(),
+    SettingPage(),
   ];
 
   void onTabTapped(int index) {
@@ -58,12 +59,12 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Tìm kiếm',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Diễn viên',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
               label: 'Yêu thích',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Cài đặt',
             ),
           ],
         ),

@@ -206,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                           String? sessionid =
                               await loginApi.login(username, password);
                           if (sessionid != null) {
-                            await prefs.setString('accessToken', sessionid);
+                            await prefs.setString('sessionId', sessionid);
                             globals.username = _username.text;
                             Navigator.pushReplacementNamed(
                                 context, '/main_screen');

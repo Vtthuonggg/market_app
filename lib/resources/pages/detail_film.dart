@@ -35,7 +35,7 @@ class _DetailFilmState extends State<DetailFilm> {
     movieDetailApi = MovieDetailApi(_apiService, movieId: widget.movieId);
     fetchDetail();
     getVideo();
-    getAccessToken();
+    fetchFavorite();
   }
 
   @override
@@ -43,24 +43,28 @@ class _DetailFilmState extends State<DetailFilm> {
     super.dispose();
   }
 
-  Future<String> getAccessToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('accessToken') ?? '';
-  }
-
   Future<void> toggleFavorite() async {
+    setState(() {
+      isFavorite = !isFavorite;
+    });
     try {
-      final accessToken = await getAccessToken();
-      await FavoriteApi(_apiService).addFavoriteMovie(
-          accessToken: accessToken,
-          movieId: widget.movieId,
-          isFavorite: isFavorite);
-
-      setState(() {
-        isFavorite = !isFavorite;
-      });
+      await FavoriteApi(_apiService)
+          .addFavoriteMovie(movieId: widget.movieId, isFavorite: isFavorite);
     } catch (e) {
       print('Lỗi toggling favorite: $e');
+    }
+  }
+
+  Future<void> fetchFavorite() async {
+    var res = await FavoriteApi(_apiService).getFavoriteMovies();
+    print('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+    print(res);
+    for (var item in res) {
+      if (item['id'] == widget.movieId) {
+        setState(() {
+          isFavorite = true;
+        });
+      }
     }
   }
 
