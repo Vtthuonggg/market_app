@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_app/app/networking/searching_film_api.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SearchingPage extends StatefulWidget {
   const SearchingPage({Key? key}) : super(key: key);
@@ -10,6 +11,9 @@ class SearchingPage extends StatefulWidget {
 }
 
 class _SearchingPageState extends State<SearchingPage> {
+  final _searchSubject = BehaviorSubject<String>();
+
+  final _searchController = TextEditingController();
   String? _selectedGenre;
   String? _selectedSort;
   final _apiService = ApiService();
@@ -44,6 +48,14 @@ class _SearchingPageState extends State<SearchingPage> {
   void initState() {
     super.initState();
     _searchingApi = SearchingApi(_apiService);
+    _searchSubject.stream
+        .debounceTime(Duration(milliseconds: 300))
+        .listen((query) async {
+      final res = await _searchingApi!.searchMovies(query);
+      movies = res;
+      print('MOVIES::: ');
+      print(movies);
+    });
   }
 
   Future<void> _fetchMovies() async {
@@ -57,6 +69,12 @@ class _SearchingPageState extends State<SearchingPage> {
   }
 
   @override
+  void dispose() {
+    _searchSubject.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -66,6 +84,22 @@ class _SearchingPageState extends State<SearchingPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {
+                      _searchSubject.add(value);
+                    },
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      hintText: 'Tìm kiếm phim',
+                    ),
+                  ),
+                ),
+                Icon(Icons.search)
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

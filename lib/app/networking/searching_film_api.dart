@@ -20,12 +20,29 @@ class SearchingApi {
       },
     );
 
-    if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
-      final movies = responseBody['results'];
-      return movies;
-    } else {
-      throw Exception('Failed to load movies');
+    final movies = response['results'];
+    return movies;
+  }
+
+  Future<List<dynamic>> searchMovies(String query) async {
+    try {
+      final response = await _apiService.network(
+        request: (request) => request.get("/search/movie", queryParameters: {
+          'api_key': dotenv.env['API_KEY'],
+          'language': 'vi',
+          'query': query,
+        }),
+      );
+
+      if (response != null && response['results'] != null) {
+        return response['results'];
+      } else {
+        print('Failed to load search results');
+        return [];
+      }
+    } catch (e) {
+      print('Failed to fetch search results: $e');
+      return [];
     }
   }
 }
