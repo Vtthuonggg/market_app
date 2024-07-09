@@ -50,15 +50,11 @@ class _DetailFilmState extends State<DetailFilm> {
     try {
       await FavoriteApi(_apiService)
           .addFavoriteMovie(movieId: widget.movieId, isFavorite: isFavorite);
-    } catch (e) {
-      print('Lỗi toggling favorite: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> fetchFavorite() async {
     var res = await FavoriteApi(_apiService).getFavoriteMovies();
-    print('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
-    print(res);
     for (var item in res) {
       if (item['id'] == widget.movieId) {
         setState(() {
@@ -78,9 +74,7 @@ class _DetailFilmState extends State<DetailFilm> {
       if (detail['genres'] != null) {
         gener = List<Map<String, dynamic>>.from(detail['genres']);
       }
-      print("DETAIL:${widget.movieId}:: $detail");
     } catch (e) {
-      print('Lỗi detail: $e');
       detail = {};
     } finally {
       if (mounted) {
@@ -100,9 +94,7 @@ class _DetailFilmState extends State<DetailFilm> {
       if (res['results'][0] != null || (res['results'][0].isNotEmpty)) {
         video = res['results'][0];
       }
-      print("link trailer: $video");
     } catch (e) {
-      print('Lỗi video: $e');
       video = {};
     } finally {
       if (mounted) {
@@ -152,7 +144,7 @@ class _DetailFilmState extends State<DetailFilm> {
         progressColor = Colors.green;
       }
     }
-    String? videoKey = video['key'].toString(); 
+    String? videoKey = video['key'].toString();
 
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: videoKey,

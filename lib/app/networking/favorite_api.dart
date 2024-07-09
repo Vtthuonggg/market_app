@@ -27,7 +27,6 @@ class FavoriteApi extends NyBaseApiService {
       if (response != null) {
         final data = response;
         if (data['id'] != null) {
-          print('GETACCOUNTID:: ${data['id']}');
           return data['id'];
         } else {
           throw Exception('ID not found in response');
@@ -48,9 +47,6 @@ class FavoriteApi extends NyBaseApiService {
     final sessionId = await getSessionId();
     final accountId = await getAccountId();
     final apiKey = dotenv.env['API_KEY'] ?? '';
-    print("CHECK MOVIEID");
-    print(movieId);
-    print(isFavorite);
     final response = await _apiService.post(
       'https://api.themoviedb.org/3/account/$accountId/favorite?api_key=$apiKey&session_id=$sessionId&language=vi',
       data: {

@@ -17,11 +17,9 @@ class MovieDetailApi {
       if (response != null) {
         return response;
       } else {
-        print('Failed to load movie details');
         return {};
       }
     } catch (e) {
-      print('Failed to fetch movie details: $e');
       return {};
     }
   }
@@ -36,7 +34,6 @@ class MovieDetailApi {
         }),
       );
       if (response != null) {
-        print(response);
         return response;
       } else {
         print('Failed to load movie details');

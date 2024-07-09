@@ -24,7 +24,6 @@ class TMDBLoginApi {
     final requestToken = await getRequestToken();
 
     if (requestToken == null) {
-      print('Failed to get request token');
       return null;
     }
 
@@ -57,18 +56,14 @@ class TMDBLoginApi {
         );
 
         if (sessionResponse != null && sessionResponse['success']) {
-          print("RESSS:: $sessionResponse");
           return sessionResponse['session_id'];
         } else {
-          print('Failed to create session');
           return null;
         }
       } else {
-        print('Failed to login');
         return null;
       }
     } catch (e) {
-      print('Failed to login: $e');
       return null;
     }
   }

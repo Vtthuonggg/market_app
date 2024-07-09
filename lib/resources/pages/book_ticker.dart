@@ -30,9 +30,7 @@ class _BookTicketState extends State<BookTicket> {
   getPrice() {
     num price = 0;
     DateTime now = DateTime.now();
-    print('THỜI GIAN HIỆN TẠI: $now');
     String formattedDate = DateFormat("EEEE").format(now);
-    print(formattedDate);
     bool isWeekend = (formattedDate == 'Friday' ||
         formattedDate == 'Satuday' ||
         formattedDate == 'Sunday');

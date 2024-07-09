@@ -47,9 +47,7 @@ class _FavoritePageState extends State<FavoritePage> {
       setState(() {
         movies.removeWhere((movie) => movie['id'] == id);
       });
-    } catch (e) {
-      print('Lỗi toggling favorite: $e');
-    }
+    } catch (e) {}
   }
 
   @override

@@ -29,10 +29,7 @@ class _NowPlayingState extends State<NowPlaying> {
       } else {
         print('No results found');
       }
-    } catch (e) {
-      print('Lỗi: $e');
-    }
-    print('Movies::: $movies');
+    } catch (e) {}
   }
 
   @override
@@ -61,10 +58,8 @@ class _NowPlayingState extends State<NowPlaying> {
                     crossAxisSpacing: 10),
                 itemCount: movies.length,
                 itemBuilder: ((context, index) {
-                  print(movies[0]['poster_path']);
                   return GestureDetector(
                     onTap: () {
-                      print(movies[index]['id']);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
