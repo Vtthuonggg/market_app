@@ -25,7 +25,7 @@ class _UpcomingState extends State<Upcoming> {
   Future fetchMovies() async {
     try {
       var res = await movieNowPlayingApi.fetchUpcomingMovie();
-      if (res != null && res.containsKey('results')) {
+      if (res.containsKey('results')) {
         movies = res['results'];
       } else {
         print('No results found');
@@ -33,7 +33,6 @@ class _UpcomingState extends State<Upcoming> {
     } catch (e) {
       print('Lỗi: $e');
     }
-    print('Movies::: $movies');
   }
 
   @override

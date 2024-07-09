@@ -1,8 +1,6 @@
 import 'package:flutter_app/app/networking/api_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'dart:convert';
-
 class MovieNowPlayingApi {
   final ApiService _apiService;
 

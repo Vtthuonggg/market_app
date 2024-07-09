@@ -53,8 +53,6 @@ class _SearchingPageState extends State<SearchingPage> {
         .listen((query) async {
       final res = await _searchingApi!.searchMovies(query);
       movies = res;
-      print('MOVIES::: ');
-      print(movies);
     });
   }
 
@@ -63,8 +61,6 @@ class _SearchingPageState extends State<SearchingPage> {
       final res = await _searchingApi!
           .fetchMoviesWithGenner(_selectedGenre!, _selectedSort!);
       movies = res;
-      print('MOVIES::: ');
-      print(movies);
     }
   }
 
