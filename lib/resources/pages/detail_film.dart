@@ -152,7 +152,7 @@ class _DetailFilmState extends State<DetailFilm> {
         progressColor = Colors.green;
       }
     }
-    String? videoKey = video['key'].toString(); // replace with your video key
+    String? videoKey = video['key'].toString(); 
 
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: videoKey,
