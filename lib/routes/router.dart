@@ -1,9 +1,7 @@
 import 'package:flutter_app/login_page.dart';
-import 'package:flutter_app/resources/pages/bottomnavi_page/searching_page.dart';
-import 'package:flutter_app/resources/pages/home_page_user.dart';
+import 'package:flutter_app/main.dart';
 import 'package:flutter_app/resources/pages/main_screen.dart';
 
-import '/resources/pages/home_page.dart';
 import 'package:nylo_framework/nylo_framework.dart';
 
 /* App Router
@@ -15,20 +13,22 @@ import 'package:nylo_framework/nylo_framework.dart';
 |-------------------------------------------------------------------------- */
 
 appRouter() => nyRoutes((router) {
-      router.route(HomePage.path, (context) => HomePage(), initialRoute: true);
-      router.route(HomePageUser.path, (context) => HomePageUser());
-      router.route(MainScreen.path, (context) => MainScreen());
-      router.route(LoginPage.path, (context) => LoginPage());
-      // Add your routes here
-
-      // router.route(NewPage.path, (context) => NewPage(), transition: PageTransitionType.fade);
-
-      // Example using grouped routes
-      // router.group(() => {
-      //   "route_guards": [AuthRouteGuard()],
-      //   "prefix": "/dashboard"
-      // }, (router) {
-      //
-      //   router.route(AccountPage.path, (context) => AccountPage());
-      // });
+      router.route(
+        MainScreen.path,
+        (context) => MainScreen(),
+        transition: PageTransitionType.bottomToTop,
+        pageTransitionSettings: const PageTransitionSettings(),
+      );
+      router.route(
+        LoginPage.path,
+        (context) => LoginPage(),
+        transition: PageTransitionType.bottomToTop,
+        pageTransitionSettings: const PageTransitionSettings(),
+      );
+      router.route(
+        SplashScreen.path,
+        (context) => SplashScreen(),
+        transition: PageTransitionType.bottomToTop,
+        pageTransitionSettings: const PageTransitionSettings(),
+      );
     });

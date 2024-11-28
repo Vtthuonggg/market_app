@@ -1,4 +1,5 @@
-import '/app/controllers/home_controller.dart';
+import 'package:flutter_app/app/networking/dio/base_api_service.dart';
+import 'package:flutter_app/app/networking/login_api.dart';
 import '/app/models/user.dart';
 import '/app/networking/api_service.dart';
 
@@ -11,7 +12,8 @@ import '/app/networking/api_service.dart';
 |-------------------------------------------------------------------------- */
 
 final Map<Type, dynamic> modelDecoders = {
-  List<User>: (data) => List.from(data).map((json) => User.fromJson(json)).toList(),
+  List<User>: (data) =>
+      List.from(data).map((json) => User.fromJson(json)).toList(),
   //
   User: (data) => User.fromJson(data),
 
@@ -26,8 +28,9 @@ final Map<Type, dynamic> modelDecoders = {
 | Learn more https://nylo.dev/docs/5.20.0/decoders#api-decoders
 |-------------------------------------------------------------------------- */
 
-final Map<Type, dynamic> apiDecoders = {
-  ApiService: () => ApiService(),
+final Map<Type, BaseApiService> apiDecoders = {
+  ApiService: ApiService(),
+  AccountApi: AccountApi(),
 
   // ...
 };
@@ -39,10 +42,5 @@ final Map<Type, dynamic> apiDecoders = {
 |
 | Learn more https://nylo.dev/docs/5.20.0/controllers
 |-------------------------------------------------------------------------- */
-final Map<Type, dynamic> controllers = {
-  HomeController: () => HomeController(),
 
-  // ...
-
-};
 

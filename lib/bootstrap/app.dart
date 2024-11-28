@@ -44,7 +44,7 @@ class AppBuild extends StatelessWidget {
     this.color,
     this.lightTheme,
     this.darkTheme,
-    this.themeMode = ThemeMode.system,
+    this.themeMode = ThemeMode.light,
     this.supportedLocales,
     this.debugShowMaterialGrid = false,
     this.showPerformanceOverlay = false,
@@ -99,10 +99,7 @@ class AppBuild extends StatelessWidget {
               },
               localizationsDelegates: NyLocalization.instance.delegates,
               locale: locale,
-              supportedLocales:
-                  supportedLocales ?? [
-                    Locale('en', 'US')
-                  ],
+              supportedLocales: supportedLocales ?? [Locale('en', 'US')],
             ),
           ),
         ),

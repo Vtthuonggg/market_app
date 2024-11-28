@@ -13,7 +13,7 @@ abstract class ColorStyles extends BaseColorStyles {
   @override
   Color get primaryContent;
   @override
-  Color get primaryAccent => const Color(0xFF0045a0);
+  Color get primaryAccent => const Color(0xFFF4A261);
 
   @override
   Color get surfaceBackground;

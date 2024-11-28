@@ -20,8 +20,6 @@ class AppProvider implements NyProvider {
     nylo.addToastNotification(getToastNotificationWidget);
     nylo.addValidationRules(validationRules);
     nylo.addModelDecoders(modelDecoders);
-    nylo.addControllers(controllers);
-    nylo.addApiDecoders(apiDecoders);
 
     // Optional
     // nylo.showDateTimeInLogs(); // Show date time in logs
