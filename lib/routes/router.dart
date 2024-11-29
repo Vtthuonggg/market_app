@@ -1,5 +1,6 @@
 import 'package:flutter_app/login_page.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/register_page.dart';
 import 'package:flutter_app/resources/pages/main_screen.dart';
 
 import 'package:nylo_framework/nylo_framework.dart';
@@ -16,7 +17,7 @@ appRouter() => nyRoutes((router) {
       router.route(
         MainScreen.path,
         (context) => MainScreen(),
-        transition: PageTransitionType.bottomToTop,
+        transition: PageTransitionType.rightToLeft,
         pageTransitionSettings: const PageTransitionSettings(),
       );
       router.route(
@@ -29,6 +30,12 @@ appRouter() => nyRoutes((router) {
         SplashScreen.path,
         (context) => SplashScreen(),
         transition: PageTransitionType.bottomToTop,
+        pageTransitionSettings: const PageTransitionSettings(),
+      );
+      router.route(
+        RegisterPage.path,
+        (context) => RegisterPage(),
+        transition: PageTransitionType.rightToLeft,
         pageTransitionSettings: const PageTransitionSettings(),
       );
     });

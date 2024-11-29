@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/bootstrap/app.dart';
 import 'package:flutter_app/bootstrap/boot.dart';
 import 'package:flutter_app/login_page.dart';
+import 'package:flutter_app/resources/pages/main_screen.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:nylo_framework/nylo_framework.dart';
@@ -16,7 +17,7 @@ void main() async {
         navigatorKey: NyNavigator.instance.router.navigatorKey,
         onGenerateRoute: nylo.router!.generator(),
         debugShowCheckedModeBanner: false,
-        initialRoute: LoginPage.path,
+        initialRoute: SplashScreen.path,
         themeData: ThemeData(
           brightness: Brightness.light,
           inputDecorationTheme: InputDecorationTheme(
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
       systemNavigationBarColor: Colors.blue,
     ));
     Timer(const Duration(seconds: 3), () {
-      routeTo(LoginPage.path);
+      routeTo(MainScreen.path);
     });
   }
 

@@ -5,6 +5,9 @@ import 'package:flutter_app/app/controllers/controller.dart';
 import 'package:flutter_app/app/models/user.dart';
 import 'package:flutter_app/app/networking/login_api.dart';
 import 'package:flutter_app/bootstrap/extensions.dart';
+import 'package:flutter_app/register_page.dart';
+import 'package:flutter_app/resources/custom_toast.dart';
+import 'package:flutter_app/resources/pages/main_screen.dart';
 import 'package:flutter_app/resources/widgets/gradient_appbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,25 +28,36 @@ class LoginPage extends NyStatefulWidget {
 }
 
 class _LoginPageState extends NyState<LoginPage> {
-  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   bool _loading = false;
   bool _isPasswordVisible = false;
+  String _errorMessage = '';
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   _login() async {
-    if (!_formKey.currentState!.saveAndValidate()) {
+    if (_emailController.text == '' || _passwordController.text == '') {
+      setState(() {
+        _errorMessage = 'Vui lòng nhập đầy đủ thông tin';
+      });
       return;
     }
+    _errorMessage = '';
     setState(() {
       _loading = true;
     });
     final payload = {
-      'email': _formKey.currentState!.value['email'],
-      'password': _formKey.currentState!.value['password'],
+      'email': _emailController.text,
+      'password': _passwordController.text,
     };
 
     try {
       User user = await myApi<AccountApi>((request) => request.login(payload));
-      log(user.toJson().toString());
+      CustomToast.showToastSuccess(context,
+          description: "Đăng nhập thành công");
+      routeTo(MainScreen.path, navigationType: NavigationType.pushReplace);
     } catch (e) {
+      setState(() {
+        _errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
+      });
       log(e.toString());
     } finally {
       setState(() {
@@ -64,67 +78,33 @@ class _LoginPageState extends NyState<LoginPage> {
 
     return Scaffold(
       appBar: GradientAppBar(
-        title: Text(
-          'Đăng nhập',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text(''),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
-        child: FormBuilder(
-          key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                20.verticalSpace,
-                Text(
-                  'Đăng nhập',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: context.color.primaryAccent),
-                ),
-                12.verticalSpace,
-                FormBuilderTextField(
-                  name: 'email',
-                  cursorColor: context.color.primaryAccent,
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Tài khoản',
-                      hintText: 'Nhập tài khoản',
-                      floatingLabelStyle: TextStyle(
-                        color: context.color.primaryAccent,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: context.color.primaryAccent,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: context.color.primaryAccent,
-                        ),
-                      )),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                  ]),
-                ),
-                SizedBox(height: 15),
-                FormBuilderTextField(
-                  name: 'password',
-                  keyboardType: TextInputType.visiblePassword,
-                  cursorColor: context.color.primaryAccent,
-                  obscureText: !_isPasswordVisible,
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Mật khẩu',
-                    hintText: 'Nhập mật khẩu',
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              20.verticalSpace,
+              Text(
+                'Đăng nhập',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: context.color.primaryAccent),
+              ),
+              12.verticalSpace,
+              TextField(
+                controller: _emailController,
+                cursorColor: context.color.primaryAccent,
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
+                decoration: InputDecoration(
+                    labelText: 'Tài khoản',
+                    hintText: 'Nhập tài khoản',
                     floatingLabelStyle: TextStyle(
                       color: context.color.primaryAccent,
                     ),
@@ -137,53 +117,102 @@ class _LoginPageState extends NyState<LoginPage> {
                       borderSide: BorderSide(
                         color: context.color.primaryAccent,
                       ),
-                    ),
-                    suffix: GestureDetector(
-                      onTap: _togglePasswordVisibility,
-                      child: Icon(
-                        _isPasswordVisible
-                            ? FontAwesomeIcons.eyeSlash
-                            : FontAwesomeIcons.solidEye,
-                        color: Colors.black26,
-                        size: 18,
-                      ),
+                    )),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                controller: _passwordController,
+                keyboardType: TextInputType.visiblePassword,
+                cursorColor: context.color.primaryAccent,
+                obscureText: !_isPasswordVisible,
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
+                decoration: InputDecoration(
+                  labelText: 'Mật khẩu',
+                  hintText: 'Nhập mật khẩu',
+                  floatingLabelStyle: TextStyle(
+                    color: context.color.primaryAccent,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.color.primaryAccent,
                     ),
                   ),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.minLength(6),
-                  ]),
-                ),
-                SizedBox(height: 20),
-                InkWell(
-                  child: Text(
-                    'Quên mật khẩu',
-                    style: TextStyle(color: Colors.blue),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.color.primaryAccent,
+                    ),
+                  ),
+                  suffix: GestureDetector(
+                    onTap: _togglePasswordVisibility,
+                    child: Icon(
+                      _isPasswordVisible
+                          ? FontAwesomeIcons.eyeSlash
+                          : FontAwesomeIcons.solidEye,
+                      color: Colors.black26,
+                      size: 18,
+                    ),
                   ),
                 ),
-                20.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: context.color.primaryAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                foregroundColor: Colors.white),
-                            onPressed: () {
-                              _login();
-                            },
-                            child: _loading
-                                ? CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                : Text("Đăng nhập"))),
-                  ],
-                )
-              ],
-            ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  InkWell(
+                    child: Text(
+                      'Quên mật khẩu',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ),
+              20.verticalSpace,
+              Row(
+                children: [
+                  Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: context.color.primaryAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              foregroundColor: Colors.white),
+                          onPressed: () {
+                            _login();
+                          },
+                          child: _loading
+                              ? CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Text("Đăng nhập"))),
+                ],
+              ),
+              8.verticalSpace,
+              Row(
+                children: [
+                  Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: context.color.primaryAccent),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              foregroundColor: context.color.primaryAccent),
+                          onPressed: () {
+                            routeTo(RegisterPage.path);
+                          },
+                          child: Text("Đăng ký"))),
+                ],
+              )
+            ],
           ),
         ),
       )),

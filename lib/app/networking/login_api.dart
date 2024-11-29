@@ -25,4 +25,18 @@ class AccountApi extends BaseApiService {
           return user;
         });
   }
+
+  Future<dynamic> register(dynamic data) async {
+    return await network(
+        request: (request) => request.post("/register", data: data),
+        handleFailure: (error) => throw error,
+        handleSuccess: (response) async {
+          User user = User.fromJson(response.data["data"]["user"]);
+
+          await NyStorage.store(
+              StorageKey.userToken, response.data["data"]["access_token"],
+              inBackpack: true);
+          return user;
+        });
+  }
 }
