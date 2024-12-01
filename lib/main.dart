@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/bootstrap/app.dart';
 import 'package:flutter_app/bootstrap/boot.dart';
+import 'package:flutter_app/config/storage_keys.dart';
 import 'package:flutter_app/login_page.dart';
 import 'package:flutter_app/resources/pages/main_screen.dart';
 
@@ -45,12 +47,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.blue,
-    ));
-    Timer(const Duration(seconds: 3), () {
-      routeTo(MainScreen.path);
-    });
+    _checkUserToken();
+  }
+
+  void _checkUserToken() async {
+    String? userToken = await NyStorage.read(StorageKey.userToken);
+    if (userToken != null) {
+      routeTo(MainScreen.path, navigationType: NavigationType.pushReplace);
+    } else {
+      routeTo(LoginPage.path, navigationType: NavigationType.pushReplace);
+    }
   }
 
   @override
