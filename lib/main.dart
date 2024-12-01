@@ -52,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _checkUserToken() async {
     String? userToken = await NyStorage.read(StorageKey.userToken);
-    if (userToken != null) {
-      routeTo(MainScreen.path, navigationType: NavigationType.pushReplace);
-    } else {
-      routeTo(LoginPage.path, navigationType: NavigationType.pushReplace);
-    }
+    // if (userToken != null) {
+    //   routeTo(MainScreen.path, navigationType: NavigationType.pushReplace);
+    // } else {
+    routeTo(LoginPage.path, navigationType: NavigationType.pushReplace);
+    // }
   }
 
   @override

@@ -2,6 +2,8 @@ import 'package:flutter_app/login_page.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/register_page.dart';
 import 'package:flutter_app/resources/pages/main_screen.dart';
+import 'package:flutter_app/resources/pages/setting/info_account_setting_page.dart';
+import 'package:flutter_app/resources/pages/setting_page.dart';
 
 import 'package:nylo_framework/nylo_framework.dart';
 
@@ -35,6 +37,18 @@ appRouter() => nyRoutes((router) {
       router.route(
         RegisterPage.path,
         (context) => RegisterPage(),
+        transition: PageTransitionType.rightToLeft,
+        pageTransitionSettings: const PageTransitionSettings(),
+      );
+      router.route(
+        SettingPage.path,
+        (context) => SettingPage(),
+        transition: PageTransitionType.rightToLeft,
+        pageTransitionSettings: const PageTransitionSettings(),
+      );
+      router.route(
+        InfoSettingPage.path,
+        (context) => InfoSettingPage(),
         transition: PageTransitionType.rightToLeft,
         pageTransitionSettings: const PageTransitionSettings(),
       );

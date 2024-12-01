@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/controllers/controller.dart';
 import 'package:flutter_app/app/models/user.dart';
-import 'package:flutter_app/app/networking/login_api.dart';
+import 'package:flutter_app/app/networking/account_api.dart';
 import 'package:flutter_app/bootstrap/extensions.dart';
 import 'package:flutter_app/register_page.dart';
 import 'package:flutter_app/resources/custom_toast.dart';
