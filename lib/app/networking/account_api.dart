@@ -100,7 +100,7 @@ class AccountApi extends BaseApiService {
       'image': await MultipartFile.fromFile(image.path,
           filename: image.path.split('/').last),
     });
-
+    log(formData.toString());
     return await network(
         request: (request) => request.post('/upload-image',
             data: formData,
